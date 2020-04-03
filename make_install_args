@@ -1,0 +1,1 @@
+UDEVDIR=%{buildroot}/usr/lib/udev

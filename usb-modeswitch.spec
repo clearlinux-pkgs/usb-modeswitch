@@ -4,7 +4,7 @@
 #
 Name     : usb-modeswitch
 Version  : 2.5.2
-Release  : 2
+Release  : 3
 URL      : http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-2.5.2.tar.bz2
 Source0  : http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-2.5.2.tar.bz2
 Summary  : No detailed summary available
@@ -14,7 +14,6 @@ Requires: usb-modeswitch-bin = %{version}-%{release}
 Requires: usb-modeswitch-license = %{version}-%{release}
 Requires: usb-modeswitch-man = %{version}-%{release}
 BuildRequires : pkgconfig(libusb-1.0)
-Patch1: fix-udevdir.patch
 
 %description
 For up-to-date and more detailed information (plus a friendly forum) visit
@@ -48,14 +47,13 @@ man components for the usb-modeswitch package.
 %prep
 %setup -q -n usb-modeswitch-2.5.2
 cd %{_builddir}/usb-modeswitch-2.5.2
-%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1585950154
+export SOURCE_DATE_EPOCH=1585954631
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -68,13 +66,13 @@ make  %{?_smp_mflags}
 
 
 %install
-export SOURCE_DATE_EPOCH=1585950154
+export SOURCE_DATE_EPOCH=1585954631
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/usb-modeswitch
 cp %{_builddir}/usb-modeswitch-2.5.2/COPYING %{buildroot}/usr/share/package-licenses/usb-modeswitch/dfac199a7539a404407098a2541b9482279f690d
 cp %{_builddir}/usb-modeswitch-2.5.2/jim/LICENSE %{buildroot}/usr/share/package-licenses/usb-modeswitch/76ba7e6efe22fae17a7216253339520a120e8df8
 cp %{_builddir}/usb-modeswitch-2.5.2/jim/autosetup/LICENSE %{buildroot}/usr/share/package-licenses/usb-modeswitch/34b2f1d7acba3eeb992e4281307640989cd08d0a
-%make_install
+%make_install UDEVDIR=%{buildroot}/usr/lib/udev
 
 %files
 %defattr(-,root,root,-)
